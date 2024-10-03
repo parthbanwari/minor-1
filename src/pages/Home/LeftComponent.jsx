@@ -4,7 +4,7 @@ const LeftComponent = () => {
     return (
         <div className='left-container flex justify-center items-center bg-dusk'>
             <div className='items-left flex flex-col items-center gap-5 text-light-purple'>
-                <h1 className='text-pale-blue text-4xl'>SynCode</h1>
+                <h1 className='text-pale-blue text-4xl'>synCode</h1>
                 <h3 className='text-light-purple-alt'>
                     Code. Collaborate. Communicate
                 </h3>
