@@ -8,7 +8,7 @@ const LeftComponent = () => {
                 <h3 className='text-light-purple-alt'>
                     Code. Collaborate. Communicate
                 </h3>
-                <button className='flex items-center justify-center bg-coral cursor-pointer h-12 w-[90%] rounded-full border-none transition-all duration-300 text-xl hover:shadow-lg text-night-blue'>
+                <button className='flex items-center justify-center bg-coral cursor-pointer h-12 w-[90%] rounded-md border-none text-xl hover:shadow-lg text-night-blue'>
                     <i className='fas fa-plus mr-2'></i>
                     <span>Create Workspace</span>
                 </button>
