@@ -29,7 +29,7 @@ const CodeEditor = () => {
                 language={language}
                 defaultValue={CODE_SNIPPETS[language]}
                 onMount={onMount}
-                theme="vs-dark"
+                theme="#24283b"
                 value={value}
                 onChange={
                     (value, event) => setValue(value)

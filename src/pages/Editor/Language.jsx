@@ -7,14 +7,14 @@ const ACTIVE_COLOR = "#ba9bf7"
 const Language = ({ language, onSelect }) => {
   return (
     <Box ml={2} mb={4}>
-      <Text mb={2} fontSize='lg' color='#c0cbf4'>Select Language</Text>
+      <Text mb={2} fontSize='lg' color='#bb9af7'>Select Language</Text>
       <Menu isLazy>
         <MenuButton 
           as={Button} 
           backgroundColor="#ff757f" 
           color="black" 
-          _hover={{ backgroundColor: '#c7606d' }}
-          _active={{ backgroundColor: '#c7606d' }} 
+          _hover={{ backgroundColor: '#fff' }}
+          _active={{ backgroundColor: '#c53b53' }} 
         >
           {language}
         </MenuButton>
