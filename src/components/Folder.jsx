@@ -1,9 +1,11 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom'; // Import useNavigate from React Router
 import Card from '../components/Card';
 import Modal from '../components/Modals';
 import { v4 } from 'uuid';
 
 const Folder = ({ folder, onEdit, onDelete, setFolders }) => {
+    const navigate = useNavigate(); // Get the navigate function
     const [isModalOpen, setModalOpen] = useState(false);
     const [modalAction, setModalAction] = useState('');
     const [fileName, setFileName] = useState('');
@@ -112,6 +114,7 @@ const Folder = ({ folder, onEdit, onDelete, setFolders }) => {
                     <Card
                         key={file.id}
                         file={file}
+                        onClick={() => navigate(`/editor/${file.id}`)} // Redirect to editor on click
                         onEdit={() => openModal('edit', file.id)}
                         onDelete={() => openModal('delete', file.id)}
                         folderId={folder.id}

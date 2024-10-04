@@ -12,7 +12,7 @@ function App() {
                     <BrowserRouter>
                         <Routes>
                             <Route path='/' element={<Home />}></Route>
-                            <Route path='/editor' element={<Editor />}></Route>
+                            <Route path='/editor/:folderId/:fileId' element={<Editor folders={{}}/>}></Route>
                         </Routes>
                     </BrowserRouter>
                 </ModalProvider>
