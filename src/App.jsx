@@ -11,11 +11,11 @@ function App() {
         {/* <Box minH="100vh" bg='#282e43' color='grey.500' px={6} pu={8}>
           <CodeEditor/>
         </Box> */}
-        <BrowserRouter>
+        {/* <BrowserRouter>
           <Routes>
             <Route path='/' element={<Home/>}></Route>
           </Routes>
-        </BrowserRouter>
+        </BrowserRouter> */}
             <EditorProvider>
                 <BrowserRouter>
                     <Routes>
