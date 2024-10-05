@@ -5,7 +5,13 @@ const Card = ({ file, folderId, onEdit, onDelete, setFolders }) => {
     const navigate = useNavigate()
 
     const handleClick = () => {
-        navigate(`/editor/${folderId}/${file.id}`)
+        // Pass the file and folder data in the 'state' parameter of navigate
+        navigate(`/editor/${folderId}/${file.id}`, {
+            state: {
+                folderId,
+                file,
+            },
+        })
     }
 
     const handleEdit = (event) => {
@@ -23,8 +29,11 @@ const Card = ({ file, folderId, onEdit, onDelete, setFolders }) => {
             <div className='bg-dusk p-3 rounded flex flex-col justify-between shadow-md hover:shadow-lg transition-shadow'>
                 <div>
                     <h2 className='text-pale-blue text-sm font-semibold'>
-                        {file.title}.{file.lang}
+                        {file.title}
                     </h2>
+                    <p className=' text-light-purple-alt text-sm font-semibold'>
+                        {file.lang}
+                    </p>
                 </div>
                 <div className='flex justify-end mt-2'>
                     <button

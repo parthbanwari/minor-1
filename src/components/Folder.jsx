@@ -1,37 +1,38 @@
-import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom'; // Import useNavigate from React Router
-import Card from '../components/Card';
-import Modal from '../components/Modals';
-import { v4 } from 'uuid';
+import React, { useState } from 'react'
+import { useNavigate } from 'react-router-dom' // Import useNavigate from React Router
+import Card from '../components/Card'
+import Modal from '../components/Modals'
+import {CODE_SNIPPETS} from '../constants'
+import { v4 } from 'uuid'
 
 const Folder = ({ folder, onEdit, onDelete, setFolders }) => {
-    const navigate = useNavigate(); // Get the navigate function
-    const [isModalOpen, setModalOpen] = useState(false);
-    const [modalAction, setModalAction] = useState('');
-    const [fileName, setFileName] = useState('');
-    const [fileLang, setFileLang] = useState('');
-    const [selectedFileId, setSelectedFileId] = useState(null);
+    const navigate = useNavigate() // Get the navigate function
+    const [isModalOpen, setModalOpen] = useState(false)
+    const [modalAction, setModalAction] = useState('')
+    const [fileName, setFileName] = useState('')
+    const [fileLang, setFileLang] = useState('')
+    const [selectedFileId, setSelectedFileId] = useState(null)
 
     const openModal = (action, fileId = null) => {
-        setModalAction(action);
-        setSelectedFileId(fileId);
+        setModalAction(action)
+        setSelectedFileId(fileId)
         if (action === 'edit') {
-            const selectedFile = folder.files.find((file) => file.id === fileId);
-            setFileName(selectedFile.title);
-            setFileLang(selectedFile.lang);
+            const selectedFile = folder.files.find((file) => file.id === fileId)
+            setFileName(selectedFile.title)
+            setFileLang(selectedFile.lang)
         } else {
-            setFileName('');
-            setFileLang('');
+            setFileName('')
+            setFileLang('')
         }
-        setModalOpen(true);
-    };
+        setModalOpen(true)
+    }
 
     const closeModal = () => {
-        setModalOpen(false);
-        setFileName('');
-        setFileLang('');
-        setSelectedFileId(null);
-    };
+        setModalOpen(false)
+        setFileName('')
+        setFileLang('')
+        setSelectedFileId(null)
+    }
 
     const handleSave = () => {
         if (modalAction === 'create' && fileName && fileLang) {
@@ -39,8 +40,8 @@ const Folder = ({ folder, onEdit, onDelete, setFolders }) => {
                 id: v4(),
                 title: fileName,
                 lang: fileLang,
-                code: `start coding here`,
-            };
+                code: CODE_SNIPPETS[fileLang] || `start coding here`,
+            }
             setFolders((prevFolders) =>
                 prevFolders.map((folderItem) =>
                     folderItem.id === folder.id
@@ -50,7 +51,7 @@ const Folder = ({ folder, onEdit, onDelete, setFolders }) => {
                           }
                         : folderItem
                 )
-            );
+            )
         } else if (modalAction === 'edit' && fileName && fileLang) {
             setFolders((prevFolders) =>
                 prevFolders.map((folderItem) =>
@@ -59,13 +60,17 @@ const Folder = ({ folder, onEdit, onDelete, setFolders }) => {
                               ...folderItem,
                               files: folderItem.files.map((file) =>
                                   file.id === selectedFileId
-                                      ? { ...file, title: fileName, lang: fileLang }
+                                      ? {
+                                            ...file,
+                                            title: fileName,
+                                            lang: fileLang,
+                                        }
                                       : file
                               ),
                           }
                         : folderItem
                 )
-            );
+            )
         } else if (modalAction === 'delete') {
             setFolders((prevFolders) =>
                 prevFolders.map((folderItem) =>
@@ -78,10 +83,10 @@ const Folder = ({ folder, onEdit, onDelete, setFolders }) => {
                           }
                         : folderItem
                 )
-            );
+            )
         }
-        closeModal();
-    };
+        closeModal()
+    }
 
     return (
         <div className='mt-2 bg-dark-gray px-4 pb-2 rounded'>
@@ -157,7 +162,7 @@ const Folder = ({ folder, onEdit, onDelete, setFolders }) => {
                 )}
             </Modal>
         </div>
-    );
-};
+    )
+}
 
-export default Folder;
+export default Folder
