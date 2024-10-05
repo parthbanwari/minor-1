@@ -1,10 +1,14 @@
 export const LANGUAGE_VERSION = {
-    javascript: "18.15.0",
-    typescript: "5.0.3",
+    c: "C11",
+    cpp: "C++17",
+    csharp: "6.12.0",
     python: "3.10.0",
     java: "15.0.2",
-    csharp: "6.12.0",
+    javascript: "18.15.0",
+    typescript: "5.0.3",
     php: "8.2.3",
+    
+    
 };
 
 export const CODE_SNIPPETS = {
@@ -35,6 +39,19 @@ export const CODE_SNIPPETS = {
     `,
     php: `<?php
 echo "Jesse: Say you want this.";
-?>
-    `
+?>`,
+
+    cpp:`#include <iostream>
+int main() {
+    std::cout << "I watched Jane die!" << std::endl;
+    return 0;
+}
+`,
+    c:`#include <stdio.h>
+
+int main() {
+    printf("What up Biatch!");
+    return 0;
+}
+`
 };

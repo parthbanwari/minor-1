@@ -47,7 +47,7 @@ const Output = ({ editorRef, language, folderId, fileId, setFolders }) => {
             setIsLoading(true)
             const { run: result } = await executeCode(language, sourceCode)
 
-            // If there is an error output in stderr, mark as error
+            // Handle compilation errors or runtime errors
             if (result.stderr) {
                 setIsError(true)
                 setOutput(result.stderr.split('\n'))
