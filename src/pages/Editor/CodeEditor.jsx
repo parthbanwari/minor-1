@@ -1,44 +1,48 @@
-import { useRef, useState } from "react";
-import { Box, HStack } from "@chakra-ui/react";
-import { Editor } from "@monaco-editor/react"
-import Language from "./Language";
-import { CODE_SNIPPETS } from "../../constants";
-import Output from "./Output";
-
+import { useRef, useState, useCallback } from 'react'
+import { Box, HStack } from '@chakra-ui/react'
+import { Editor } from '@monaco-editor/react'
+import Language from './Language'
+import { CODE_SNIPPETS } from '../../constants'
+import Output from './Output'
 
 const CodeEditor = () => {
-    const editorRef = useRef()
-    const[value, setValue] = useState('')
-    const[language, setLanguage] = useState('python');
+    const editorRef = useRef(null)
+    const [value, setValue] = useState(CODE_SNIPPETS['python'])
+    const [language, setLanguage] = useState('python')
 
-    const onMount = (editor) => {
-        editorRef.current = editor;
-        editor.focus();
-    }
-    const onSelect = (language) => {
-        setLanguage(language);
-        setValue(CODE_SNIPPETS[language]);
-    };
+    // Editor onMount function to set the editorRef
+    const onMount = useCallback((editor) => {
+        editorRef.current = editor
+        editor.focus()
+    }, [])
 
-    return(
-        <Box>
-        <HStack spacing={4}>
-            <Box w='50%'>
-                <Language language={language} onSelect={onSelect}/>
-                <Editor height="75vh"
-                language={language}
-                defaultValue={CODE_SNIPPETS[language]}
-                onMount={onMount}
-                theme="#24283b"
-                value={value}
-                onChange={
-                    (value, event) => setValue(value)
-                }>
-                </Editor>
-            </Box>
-            <Output editorRef={editorRef} language={language} />
-        </HStack>
+    // Language select handler
+    const onSelect = useCallback((newLanguage) => {
+        setLanguage(newLanguage)
+        setValue(CODE_SNIPPETS[newLanguage])
+    }, [])
+
+    return (
+        <Box minH='100vh' bg='#282e43' color='grey.500' px={6} pu={8}>
+            <HStack spacing={4}>
+                {/* Code editor section */}
+                <Box w='50%'>
+                    <Language language={language} onSelect={onSelect} />
+                    <Editor
+                        height='75vh'
+                        language={language}
+                        value={value}
+                        onMount={onMount}
+                        theme='vs-dark'
+                        onChange={(newValue) => setValue(newValue)}
+                    />
+                </Box>
+
+                {/* Output section */}
+                <Output editorRef={editorRef} language={language} />
+            </HStack>
         </Box>
-    );
-};
-export default CodeEditor;
+    )
+}
+
+export default CodeEditor
