@@ -11,13 +11,13 @@ const initialSetup = [
             {
                 id: v4(),
                 title: 'hello',
-                lang: 'py',
+                lang: 'python',
                 code: `print("hello world")`
             },
             {
                 id: v4(),
                 title: 'pattern',
-                lang: 'py',
+                lang: 'python',
                 code: `# Function to print inverted half pyramid pattern
 def inverted_half_pyramid(n):
     for i in range(n, 0, -1):
