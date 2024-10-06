@@ -12,7 +12,7 @@ const initialSetup = [
                 id: v4(),
                 title: 'hello',
                 lang: 'python',
-                code: `print("hello world")`
+                code: `print("hello world")`,
             },
             {
                 id: v4(),

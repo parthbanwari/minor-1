@@ -1,6 +1,6 @@
 import { Box, Button, Text, useToast } from '@chakra-ui/react'
 import React, { useState, useCallback } from 'react'
-import { executeCode } from './api'
+import { executeCode } from './Api'
 
 const Output = ({ editorRef, language, folderId, fileId, setFolders }) => {
     const toast = useToast()
@@ -45,7 +45,8 @@ const Output = ({ editorRef, language, folderId, fileId, setFolders }) => {
 
         try {
             setIsLoading(true)
-            const { run: result } = await executeCode(language, sourceCode)
+            const result = await executeCode(language, sourceCode)
+            // console.log('API Response:', result)
 
             // Handle compilation errors or runtime errors
             if (result.stderr) {
@@ -53,7 +54,7 @@ const Output = ({ editorRef, language, folderId, fileId, setFolders }) => {
                 setOutput(result.stderr.split('\n'))
             } else {
                 setIsError(false)
-                setOutput(result.output.split('\n'))
+                setOutput(result.stdout?.split('\n') || ['No output']) // Handle case where stdout might be undefined
             }
         } catch (error) {
             console.error(error)
@@ -80,6 +81,7 @@ const Output = ({ editorRef, language, folderId, fileId, setFolders }) => {
                 mb={4}
                 isLoading={isLoading}
                 onClick={runCode}
+                isDisabled={isLoading} // Disable button while loading
             >
                 Run Code
             </Button>
@@ -91,10 +93,13 @@ const Output = ({ editorRef, language, folderId, fileId, setFolders }) => {
                 bg='#1e1e1e'
                 color={isError ? 'red.400' : 'white'}
                 overflowY='auto'
+                aria-live='polite' // Accessibility feature
             >
-                {output
-                    ? output.map((line, i) => <Text key={i}>{line}</Text>)
-                    : 'Click "Run Code" to see the output here'}
+                <pre>
+                    {output
+                        ? output.map((line, i) => <Text key={i}>{line}</Text>)
+                        : 'Click "Run Code" to see the output here'}
+                </pre>
             </Box>
         </Box>
     )
