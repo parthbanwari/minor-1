@@ -1,40 +1,47 @@
-import { Menu, MenuButton, MenuItem, MenuList, Button, Text } from '@chakra-ui/react'; // Import Chakra UI components
-import React, { useState, useRef, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom'; // Import useNavigate from React Router
-import Card from '../components/Card';
-import Modal from '../components/Modals';
-import { CODE_SNIPPETS } from '../constants';
-import { v4 } from 'uuid';
+import {
+    Menu,
+    MenuButton,
+    MenuItem,
+    MenuList,
+    Button,
+    Text,
+} from '@chakra-ui/react' // Import Chakra UI components
+import React, { useState, useRef, useEffect } from 'react'
+import { useNavigate } from 'react-router-dom' // Import useNavigate from React Router
+import Card from '../components/Card'
+import Modal from '../components/Modals'
+import { CODE_SNIPPETS } from '../constants'
+import { v4 } from 'uuid'
 
 const Folder = ({ folder, onEdit, onDelete, setFolders }) => {
-    const navigate = useNavigate();
-    const [isModalOpen, setModalOpen] = useState(false);
-    const [modalAction, setModalAction] = useState('');
-    const [fileName, setFileName] = useState('');
-    const [fileLang, setFileLang] = useState(''); // File language state
-    const [selectedFileId, setSelectedFileId] = useState(null);
-    const inputRef = useRef(null); // Ref for the input field
+    const navigate = useNavigate()
+    const [isModalOpen, setModalOpen] = useState(false)
+    const [modalAction, setModalAction] = useState('')
+    const [fileName, setFileName] = useState('')
+    const [fileLang, setFileLang] = useState('') // File language state
+    const [selectedFileId, setSelectedFileId] = useState(null)
+    const inputRef = useRef(null) // Ref for the input field
 
     const openModal = (action, fileId = null) => {
-        setModalAction(action);
-        setSelectedFileId(fileId);
+        setModalAction(action)
+        setSelectedFileId(fileId)
         if (action === 'edit') {
-            const selectedFile = folder.files.find((file) => file.id === fileId);
-            setFileName(selectedFile.title);
-            setFileLang(selectedFile.lang);
+            const selectedFile = folder.files.find((file) => file.id === fileId)
+            setFileName(selectedFile.title)
+            setFileLang(selectedFile.lang)
         } else {
-            setFileName('');
-            setFileLang('');
+            setFileName('')
+            setFileLang('')
         }
-        setModalOpen(true);
-    };
+        setModalOpen(true)
+    }
 
     const closeModal = () => {
-        setModalOpen(false);
-        setFileName('');
-        setFileLang('');
-        setSelectedFileId(null);
-    };
+        setModalOpen(false)
+        setFileName('')
+        setFileLang('')
+        setSelectedFileId(null)
+    }
 
     const handleSave = () => {
         if (modalAction === 'create' && fileName && fileLang) {
@@ -43,7 +50,7 @@ const Folder = ({ folder, onEdit, onDelete, setFolders }) => {
                 title: fileName,
                 lang: fileLang,
                 code: CODE_SNIPPETS[fileLang] || `start coding here`,
-            };
+            }
             setFolders((prevFolders) =>
                 prevFolders.map((folderItem) =>
                     folderItem.id === folder.id
@@ -53,7 +60,7 @@ const Folder = ({ folder, onEdit, onDelete, setFolders }) => {
                           }
                         : folderItem
                 )
-            );
+            )
         } else if (modalAction === 'edit' && fileName && fileLang) {
             setFolders((prevFolders) =>
                 prevFolders.map((folderItem) =>
@@ -72,7 +79,7 @@ const Folder = ({ folder, onEdit, onDelete, setFolders }) => {
                           }
                         : folderItem
                 )
-            );
+            )
         } else if (modalAction === 'delete') {
             setFolders((prevFolders) =>
                 prevFolders.map((folderItem) =>
@@ -85,24 +92,22 @@ const Folder = ({ folder, onEdit, onDelete, setFolders }) => {
                           }
                         : folderItem
                 )
-            );
+            )
         }
-        closeModal();
-    };
+        closeModal()
+    }
 
-    // Auto-focus input when the modal is open
     useEffect(() => {
         if (isModalOpen) {
-            inputRef.current?.focus();
+            inputRef.current?.focus()
         }
-    }, [isModalOpen]);
+    }, [isModalOpen])
 
-    // Handle "Enter" key to save the file
     const handleKeyDown = (e) => {
         if (e.key === 'Enter') {
-            handleSave();
+            handleSave()
         }
-    };
+    }
 
     return (
         <div className='mt-2 bg-dark-gray px-4 pb-2 rounded'>
@@ -169,24 +174,27 @@ const Folder = ({ folder, onEdit, onDelete, setFolders }) => {
                             ref={inputRef} // Attach ref for focusing input
                             onKeyDown={handleKeyDown} // Trigger save on "Enter" key
                         />
-                        
+
                         <Text mb={2} fontSize='lg' color='#bb9af7'></Text>
                         <Menu isLazy>
                             <MenuButton
                                 as={Button}
-                                backgroundColor="#ff757f"
-                                color="black"
+                                backgroundColor='#ff757f'
+                                color='black'
                                 _hover={{ backgroundColor: '#fff' }}
                                 _active={{ backgroundColor: '#c53b53' }}
                             >
                                 {fileLang || 'Select Language'}
                             </MenuButton>
                             <MenuList
-                                maxHeight="200px" // Set max height to limit visible items
-                                overflowY="auto"  // Enable vertical scroll when list exceeds maxHeight
+                                maxHeight='200px' // Set max height to limit visible items
+                                overflowY='auto' // Enable vertical scroll when list exceeds maxHeight
                             >
                                 {Object.keys(CODE_SNIPPETS).map((lang) => (
-                                    <MenuItem key={lang} onClick={() => setFileLang(lang)}>
+                                    <MenuItem
+                                        key={lang}
+                                        onClick={() => setFileLang(lang)}
+                                    >
                                         {lang}
                                     </MenuItem>
                                 ))}
@@ -196,7 +204,7 @@ const Folder = ({ folder, onEdit, onDelete, setFolders }) => {
                 )}
             </Modal>
         </div>
-    );
-};
+    )
+}
 
-export default Folder;
+export default Folder
