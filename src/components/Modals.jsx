@@ -21,7 +21,7 @@ const Modal = ({ isOpen, onClose, title, onSave, children }) => {
                         className='bg-coral text-night-blue px-4 py-2 rounded'
                         onClick={onSave}
                     >
-                        Save
+                        {title === 'Confirm Deletion' ? 'Delete' : 'Save'}
                     </button>
                 </div>
             </div>
