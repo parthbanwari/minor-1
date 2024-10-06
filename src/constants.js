@@ -59,7 +59,7 @@ int main() {
     c: `#include <stdio.h>
 
 int main() {
-    printf("What up Biatch!");
+    printf("What up, G!");
     return 0;
 }
 `,
