@@ -119,8 +119,9 @@ const CollabEditorPage = () => {
     if (!location.state) {
         return <Navigate to='/' />
     }
+
     return (
-        <div className='w-screen h-screen bg-primary flex flex-col overflow-hidden'>
+        <div className='w-screen h-screen bg-dark-blue flex flex-col overflow-hidden'>
             <div className='w-full h-full text-xl overflow-auto'>
                 <Editor
                     language={language}
@@ -130,11 +131,11 @@ const CollabEditorPage = () => {
                 />
             </div>
 
-            <div className='bg-soft w-full flex justify-between  relative select-none'>
-                <div className=' font-bold flex gap-4'>
+            <div className='bg-dark-gray w-full flex justify-between relative select-none'>
+                <div className='font-bold flex gap-4'>
                     <div
                         onClick={copyRoomId}
-                        className='bg-[white] px-6 cursor-pointer'
+                        className='bg-gray-800 text-white px-6 cursor-pointer hover:bg-gray-700'
                     >
                         <i className='fa-solid fa-copy' />
                     </div>
@@ -146,7 +147,7 @@ const CollabEditorPage = () => {
                         <select
                             onChange={handleThemeChange}
                             value={theme}
-                            className='bg-soft font-bold mx-2'
+                            className='bg-dark-gray text-white font-bold mx-2'
                         >
                             <option value='oneDark'>One Dark</option>
                             <option value='dracula'>Dracula</option>
@@ -157,7 +158,7 @@ const CollabEditorPage = () => {
                         <select
                             onChange={handleLanguageChange}
                             value={language}
-                            className='bg-soft   font-bold mx-2'
+                            className='bg-dark-gray text-white font-bold mx-2'
                         >
                             <option value='javascript'>JavaScript</option>
                             <option value='python'>Python</option>
@@ -169,18 +170,18 @@ const CollabEditorPage = () => {
                         onMouseEnter={handleMouseEnter}
                         onMouseLeave={handleMouseLeave}
                     >
-                        <div className=' bg-white'>
+                        <div className='bg-gray-800 text-white'>
                             <i className='fa-solid fa-users px-6' />
                         </div>
                         {showConnected && (
-                            <div className='absolute bottom-full right-0 m-4 bg-white p-2 border-2 border-gray-300'>
-                                <span className='font-semibold'>
+                            <div className='absolute bottom-full right-0 m-4 bg-gray-800 p-2 border-2 border-gray-600'>
+                                <span className='font-semibold text-white'>
                                     CONNECTED USERS:
                                 </span>
                                 <hr />
                                 {clients.map((c) => (
                                     <div
-                                        className='select-none text-primary font-semibold text-lg'
+                                        className='select-none text-light-blue font-semibold text-lg'
                                         key={c.id}
                                     >
                                         &bull; {c.username}
@@ -191,7 +192,7 @@ const CollabEditorPage = () => {
                     </div>
                     <div
                         onClick={handleLeave}
-                        className='bg-[#FF7F50] px-6 cursor-pointer'
+                        className='bg-red-500 text-white px-6 cursor-pointer hover:bg-red-400'
                     >
                         <i className='fa-solid fa-right-from-bracket' />
                     </div>

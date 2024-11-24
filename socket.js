@@ -8,7 +8,7 @@ export const initSocket = async () => {
         transports: ['websocket'],
     }
 
-    const backendUrl = import.meta.env.VITE_BACKEND_URL
+    const backendUrl = 'http://localhost:5000'
 
     if (!backendUrl) {
         throw new Error('Backend URL is not defined in environment variables')

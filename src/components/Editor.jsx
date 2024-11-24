@@ -1,26 +1,37 @@
-import React, { useEffect, useRef, useState } from 'react'
-import * as monaco from 'monaco-editor'
+import React, { useRef, useEffect, useState } from 'react'
+import { basicSetup } from 'codemirror'
+
+import { oneDark } from '@codemirror/theme-one-dark'
+import { dracula, amy, barf, coolGlow } from 'thememirror'
+
+import { EditorState } from '@codemirror/state'
+import { EditorView, keymap } from '@codemirror/view'
+import { defaultKeymap, insertTab } from '@codemirror/commands'
+import { javascript } from '@codemirror/lang-javascript'
+import { python } from '@codemirror/lang-python'
+
+const themes = {
+    oneDark,
+    dracula,
+    amy,
+    barf,
+    coolGlow,
+}
 
 const Editor = ({ language, theme, socket, roomId }) => {
-    const editorContainer = useRef(null)
-    const editorInstance = useRef(null)
+    const editorContainer = useRef()
     const [code, setCode] = useState('Greetings.')
+    const editorView = useRef(null)
 
-    useEffect(() => {
-        // Initialize Monaco editor
-        editorInstance.current = monaco.editor.create(editorContainer.current, {
-            value: code,
-            language: language || 'javascript',
-            theme: theme || 'vs-dark',
-            automaticLayout: true,
-        })
+    
 
-        // Listen to editor changes
-        const model = editorInstance.current.getModel()
-        const disposable = model.onDidChangeContent(() => {
-            const newCode = model.getValue()
+    const onUpdate = EditorView.updateListener.of((v) => {
+        
+        if (v.docChanged) {
+            const newCode = v.state.doc.toString()
             setCode(newCode)
             console.log(newCode)
+            console.log(socket)
             if (socket) {
                 socket.emit('code_change', { roomId, code: newCode })
             } else {
@@ -28,32 +39,76 @@ const Editor = ({ language, theme, socket, roomId }) => {
                     'Socket is not initialized properly or is undefined.'
                 )
             }
+        }
+    })
+
+    const getLanguageExtension = (lang) => {
+        switch (lang) {
+            case 'javascript':
+                return javascript()
+            case 'text':
+                return basicSetup
+            case 'python':
+                return python()
+            default:
+                return basicSetup
+        }
+    }
+
+    useEffect(() => {
+        const state = EditorState.create({
+            doc: code,
+            extensions: [
+                basicSetup,
+                keymap.of([
+                    ...defaultKeymap,
+                    {
+                        key: 'Tab',
+                        preventDefault: true,
+                        run: insertTab,
+                    },
+                ]),
+                themes[theme] || oneDark,
+                onUpdate,
+                getLanguageExtension(language),
+                EditorView.lineWrapping,
+            ],
+        })
+
+        editorView.current = new EditorView({
+            state,
+            parent: editorContainer.current,
         })
 
         return () => {
-            // Cleanup editor on unmount
-            disposable.dispose()
-            if (editorInstance.current) {
-                editorInstance.current.dispose()
+            if (editorView.current) {
+                editorView.current.destroy()
             }
         }
-    }, [language, theme, socket])
+    }, [language, theme,socket])
 
     useEffect(() => {
-        // Update Monaco editor theme and language dynamically
-        if (editorInstance.current) {
-            monaco.editor.setTheme(theme || 'vs-dark')
-            const model = editorInstance.current.getModel()
-            monaco.editor.setModelLanguage(model, language || 'javascript')
-        }
-    }, [language, theme])
-
-    useEffect(() => {
-        // Listen to "code_update" from socket
         if (socket) {
             socket.on('code_update', ({ code }) => {
-                const model = editorInstance.current.getModel()
-                model.setValue(code)
+                const state = EditorState.create({
+                    doc: code,
+                    extensions: [
+                        basicSetup,
+                        keymap.of([
+                            ...defaultKeymap,
+                            {
+                                key: 'Tab',
+                                preventDefault: true,
+                                run: insertTab,
+                            },
+                        ]),
+                        themes[theme] || oneDark,
+                        onUpdate,
+                        getLanguageExtension(language),
+                        EditorView.lineWrapping,
+                    ],
+                })
+                editorView.current.setState(state)
             })
         }
 
@@ -62,21 +117,18 @@ const Editor = ({ language, theme, socket, roomId }) => {
                 socket.off('code_update')
             }
         }
-    }, [socket])
+    }, [language, theme, socket])
 
     const handleClick = () => {
-        if (editorInstance.current) {
-            editorInstance.current.focus()
+        if (editorView.current) {
+            editorView.current.focus()
         }
     }
 
     return (
-        <div
-            onClick={handleClick}
-            className='w-full h-full'
-            ref={editorContainer}
-            style={{ height: '100%', width: '100%' }}
-        ></div>
+        <div onClick={handleClick} className='w-full h-full'>
+            <div ref={editorContainer}></div>
+        </div>
     )
 }
 
