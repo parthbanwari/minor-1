@@ -28,15 +28,11 @@ const Editor = ({ language, theme, socket, roomId }) => {
         if (v.docChanged) {
             const newCode = v.state.doc.toString();
             setCode(newCode);
-            console.log(newCode)
-            console.log(socket)
 
             if (socket) {
                 socket.emit('code_change', { roomId, code: newCode });
             } else {
-                console.error(
-                    'Socket is not initialized properly or is undefined.'
-                );
+                console.error('Socket is not initialized properly or is undefined.');
             }
         }
     });
@@ -45,13 +41,13 @@ const Editor = ({ language, theme, socket, roomId }) => {
     const getLanguageExtension = (lang) => {
         switch (lang) {
             case 'javascript':
-                return javascript()
+                return javascript();
             case 'text':
-                return basicSetup
+                return basicSetup;
             case 'python':
                 return python();
             default:
-                return basicSetup
+                return basicSetup;
         }
     };
 
@@ -109,17 +105,17 @@ const Editor = ({ language, theme, socket, roomId }) => {
                         getLanguageExtension(language),
                         EditorView.lineWrapping,
                     ],
-                })
-                editorView.current.setState(state)
-            })
+                });
+                editorView.current.setState(state);
+            });
         }
 
         return () => {
             if (socket) {
-                socket.off('code_update')
+                socket.off('code_update');
             }
-        }
-    }, [language, theme, socket])
+        };
+    }, [language, theme, socket]);
 
     // Focus editor when container is clicked
     const handleClick = () => {
@@ -129,8 +125,18 @@ const Editor = ({ language, theme, socket, roomId }) => {
     };
 
     return (
-        <div onClick={handleClick} className="w-full h-full">
-            <div ref={editorContainer}></div>
+        <div
+            onClick={handleClick}
+            className="editor-container"
+            style={{
+                width: '100%',
+                height: '540px', // Set desired height
+                overflow: 'auto', // Enable scrolling
+                border: '1px solid #111',
+                backgroundColor: '#1e1e1e', // Match the theme
+            }}
+        >
+            <div ref={editorContainer} style={{ height: '100%' }}></div>
         </div>
     );
 };
