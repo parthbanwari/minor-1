@@ -130,7 +130,7 @@ const Editor = ({ language, theme, socket, roomId }) => {
             className="editor-container"
             style={{
                 width: '100%',
-                height: '540px', // Set desired height
+                height: '504px', // Set desired height
                 overflow: 'auto', // Enable scrolling
                 border: '1px solid #111',
                 backgroundColor: '#1e1e1e', // Match the theme
