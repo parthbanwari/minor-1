@@ -1,14 +1,14 @@
-import React, { useRef, useEffect, useState } from 'react'
-import { basicSetup } from 'codemirror'
+import React, { useRef, useEffect, useState } from 'react';
+import { basicSetup } from 'codemirror';
 
-import { oneDark } from '@codemirror/theme-one-dark'
-import { dracula, amy, barf, coolGlow } from 'thememirror'
+import { oneDark } from '@codemirror/theme-one-dark';
+import { dracula, amy, barf, coolGlow } from 'thememirror';
 
-import { EditorState } from '@codemirror/state'
-import { EditorView, keymap } from '@codemirror/view'
-import { defaultKeymap, insertTab } from '@codemirror/commands'
-import { javascript } from '@codemirror/lang-javascript'
-import { python } from '@codemirror/lang-python'
+import { EditorState } from '@codemirror/state';
+import { EditorView, keymap } from '@codemirror/view';
+import { defaultKeymap, insertTab } from '@codemirror/commands';
+import { javascript } from '@codemirror/lang-javascript';
+import { python } from '@codemirror/lang-python';
 
 const themes = {
     oneDark,
@@ -16,32 +16,32 @@ const themes = {
     amy,
     barf,
     coolGlow,
-}
+};
 
 const Editor = ({ language, theme, socket, roomId }) => {
-    const editorContainer = useRef()
-    const [code, setCode] = useState('Greetings.')
-    const editorView = useRef(null)
+    const editorContainer = useRef();
+    const [code, setCode] = useState('Greetings.');
+    const editorView = useRef(null);
 
-    
-
+    // Listener for editor updates
     const onUpdate = EditorView.updateListener.of((v) => {
-        
         if (v.docChanged) {
-            const newCode = v.state.doc.toString()
-            setCode(newCode)
+            const newCode = v.state.doc.toString();
+            setCode(newCode);
             console.log(newCode)
             console.log(socket)
+
             if (socket) {
-                socket.emit('code_change', { roomId, code: newCode })
+                socket.emit('code_change', { roomId, code: newCode });
             } else {
                 console.error(
                     'Socket is not initialized properly or is undefined.'
-                )
+                );
             }
         }
-    })
+    });
 
+    // Map language to its CodeMirror extension
     const getLanguageExtension = (lang) => {
         switch (lang) {
             case 'javascript':
@@ -49,12 +49,13 @@ const Editor = ({ language, theme, socket, roomId }) => {
             case 'text':
                 return basicSetup
             case 'python':
-                return python()
+                return python();
             default:
                 return basicSetup
         }
-    }
+    };
 
+    // Initialize CodeMirror editor
     useEffect(() => {
         const state = EditorState.create({
             doc: code,
@@ -73,20 +74,21 @@ const Editor = ({ language, theme, socket, roomId }) => {
                 getLanguageExtension(language),
                 EditorView.lineWrapping,
             ],
-        })
+        });
 
         editorView.current = new EditorView({
             state,
             parent: editorContainer.current,
-        })
+        });
 
         return () => {
             if (editorView.current) {
-                editorView.current.destroy()
+                editorView.current.destroy();
             }
-        }
-    }, [language, theme,socket])
+        };
+    }, [language, theme, socket]);
 
+    // Socket event listeners
     useEffect(() => {
         if (socket) {
             socket.on('code_update', ({ code }) => {
@@ -119,17 +121,18 @@ const Editor = ({ language, theme, socket, roomId }) => {
         }
     }, [language, theme, socket])
 
+    // Focus editor when container is clicked
     const handleClick = () => {
         if (editorView.current) {
-            editorView.current.focus()
+            editorView.current.focus();
         }
-    }
+    };
 
     return (
-        <div onClick={handleClick} className='w-full h-full'>
+        <div onClick={handleClick} className="w-full h-full">
             <div ref={editorContainer}></div>
         </div>
-    )
-}
+    );
+};
 
-export default Editor
+export default Editor;
