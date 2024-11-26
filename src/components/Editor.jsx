@@ -18,16 +18,16 @@ const themes = {
     coolGlow,
 };
 
-const Editor = ({ language, theme, socket, roomId }) => {
+const Editor = ({ language, theme, socket, roomId ,setValue,value}) => {
     const editorContainer = useRef();
-    const [code, setCode] = useState('Greetings.');
+    const [code, setCode] = useState(value);
     const editorView = useRef(null);
 
     // Listener for editor updates
     const onUpdate = EditorView.updateListener.of((v) => {
         if (v.docChanged) {
             const newCode = v.state.doc.toString();
-            setCode(newCode);
+            setValue(newCode)
 
             if (socket) {
                 socket.emit('code_change', { roomId, code: newCode });
@@ -107,6 +107,7 @@ const Editor = ({ language, theme, socket, roomId }) => {
                     ],
                 });
                 editorView.current.setState(state);
+                setValue(code);
             });
         }
 

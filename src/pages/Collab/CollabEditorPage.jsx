@@ -12,26 +12,20 @@ const CollabEditorPage = () => {
     const socketRef = useRef() // Ref for socket connection
     const location = useLocation()
     const editorRef = useRef(null) // Ref for the editor
-    const { folderId, file } = location.state || {}
-    const [value, setValue] = useState(file?.code || CODE_SNIPPETS['python']) // Code value
+
+    const [value, setValue] = useState(CODE_SNIPPETS['python']) // Code value
     const { roomId } = useParams()
     const reactNavigator = useNavigate()
 
     const [clients, setClients] = useState([]) // List of connected clients
     const [language, setLanguage] = useState('python') // Language of the editor
     const [theme, setTheme] = useState('oneDark') // Theme of the editor
-    const [codeOutput, setCodeOutput] = useState(
-        'Click "Run Code" to see the output here.'
-    )
 
     // Language selection callback
-    const onSelect = useCallback(
-        (newLanguage) => {
-            setLanguage(newLanguage)
-            setValue(CODE_SNIPPETS[file?.code || newLanguage])
-        },
-        [file]
-    )
+    const onSelect = (newLanguage) => {
+        setLanguage(newLanguage)
+        setValue(CODE_SNIPPETS[newLanguage])
+    }
 
     // Initialize socket and event listeners
     useEffect(() => {
@@ -95,16 +89,6 @@ const CollabEditorPage = () => {
         }
     }, [roomId, location.state?.username, reactNavigator])
 
-    // Handle language change
-    const handleLanguageChange = (event) => {
-        setLanguage(event.target.value)
-    }
-
-    // Handle code execution (mock)
-    const runCode = () => {
-        setCodeOutput('Code executed successfully!')
-    }
-
     // Redirect if location state is missing
     if (!location.state) {
         return <Navigate to='/' />
@@ -122,12 +106,17 @@ const CollabEditorPage = () => {
                             theme={theme}
                             socket={socketRef.current}
                             roomId={roomId}
+                            setValue={setValue}
+                            value={value}
                         />
                     </div>
                 </Box>
-
                 {/* Output section */}
-                <Output editorRef={editorRef} language={language} scode={value}/>
+                <Output
+                    editorRef={editorRef}
+                    language={language}
+                    scode={value}
+                />
             </HStack>
         </Box>
     )
