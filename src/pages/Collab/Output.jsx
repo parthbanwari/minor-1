@@ -10,14 +10,13 @@ const Output = ({ editorRef, language,scode }) => {
 
 
     const runCode = useCallback(async () => {
-        const sourceCode = scode
 
         console.log(scode)
-        if (!sourceCode) return
+        if (!scode) return
 
         try {
             setIsLoading(true)
-            const result = await executeCode(language, sourceCode)
+            const result = await executeCode(language, scode)
             
             //console.log('API Response:', result)
 
@@ -41,7 +40,7 @@ const Output = ({ editorRef, language,scode }) => {
         } finally {
             setIsLoading(false)
         }
-    }, [language, editorRef])
+    }, [language, editorRef,scode])
 
     return (
         <Box w='50%'>

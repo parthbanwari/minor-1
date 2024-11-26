@@ -5,7 +5,7 @@ import toast from 'react-hot-toast'
 import Editor from '../../components/Editor.jsx'
 import { Box, HStack } from '@chakra-ui/react'
 import Language from '../Editor/Language.jsx'
-import { CODE_SNIPPETS } from '../../constants.js'
+// import { CODE_SNIPPETS } from '../../constants.js'
 import Output from '../Collab/Output.jsx'
 
 const CollabEditorPage = () => {
@@ -13,7 +13,7 @@ const CollabEditorPage = () => {
     const location = useLocation()
     const editorRef = useRef(null) // Ref for the editor
 
-    const [value, setValue] = useState(CODE_SNIPPETS['python']) // Code value
+    const [value, setValue] = useState('start coding...') // Code value
     const { roomId } = useParams()
     const reactNavigator = useNavigate()
 
@@ -24,7 +24,7 @@ const CollabEditorPage = () => {
     // Language selection callback
     const onSelect = (newLanguage) => {
         setLanguage(newLanguage)
-        setValue(CODE_SNIPPETS[newLanguage])
+        setValue('start coding...')
     }
 
     // Initialize socket and event listeners

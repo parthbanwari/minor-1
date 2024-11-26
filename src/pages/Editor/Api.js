@@ -4,7 +4,7 @@ import { LANGUAGE_ID_MAP } from '../../constants.js'
 const API = axios.create({
     baseURL: 'https://judge0-ce.p.rapidapi.com',
     headers: {
-        'x-rapidapi-key': 'f38cf76294msh9dbd6863cfca3d0p1f0169jsn7d11ebdee685',
+        'x-rapidapi-key': '8e6adcae45mshd652813ae723239p15fc38jsn260d14cfffc6',
         'x-rapidapi-host': 'judge0-ce.p.rapidapi.com',
     },
 })
