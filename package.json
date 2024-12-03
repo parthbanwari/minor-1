@@ -9,9 +9,9 @@
     "build": "vite build",
     "lint": "eslint .",
     "preview": "vite preview",
-    "start": "node index.js",
+    "start": "node server.js",
     "init": "npm install && npm run build",
-    "server": "node index.js"
+    "server": "node server.js"
   },
   "dependencies": {
     "@chakra-ui/react": "^2.9.4",
