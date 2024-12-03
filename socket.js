@@ -8,7 +8,7 @@ export const initSocket = async () => {
         transports: ['websocket'],
     }
 
-    const backendUrl = 'http://localhost:5000'
+    const backendUrl = 'https://syncode-owgr.onrender.com'
 
     if (!backendUrl) {
         throw new Error('Backend URL is not defined in environment variables')
