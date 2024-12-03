@@ -7,7 +7,12 @@
     "dev": "vite",
     "build": "vite build",
     "lint": "eslint .",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "start": "node index.js",
+    "client-install": "npm install",
+    "client-build": "npm run build",
+    "build": "npm run client-install && npm run client-build",
+    "server": "node index.js"
   },
   "dependencies": {
     "@chakra-ui/react": "^2.9.4",
