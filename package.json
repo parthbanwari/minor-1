@@ -9,9 +9,7 @@
     "lint": "eslint .",
     "preview": "vite preview",
     "start": "node index.js",
-    "client-install": "npm install",
-    "client-build": "npm run build",
-    "build": "npm run client-install && npm run client-build",
+    "init": "npm install && npm run build",
     "server": "node index.js"
   },
   "dependencies": {
